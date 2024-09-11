@@ -1,4 +1,3 @@
-
 import 'package:docment/core/const_design.dart';
 import 'package:docment/feature/home/widget/doctor_search_section.dart';
 import 'package:flutter/material.dart';
@@ -42,7 +41,7 @@ class HomePresentationScreen extends StatelessWidget {
           const SliverToBoxAdapter(child: DoctorSearchSection()),
           SliverToBoxAdapter(
             child: SizedBox(
-              height: 20.h,
+              height: 10.h,
             ),
           ),
         ];

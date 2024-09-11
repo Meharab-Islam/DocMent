@@ -2,32 +2,17 @@ import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-class DropDownField extends StatefulWidget {
-  const DropDownField({super.key, required this.title, required this.items});
+class AppoinmentDropDownField extends StatefulWidget {
+  const AppoinmentDropDownField({super.key, required this.title, required this.items});
 
   final String title;
   final List<String> items;
 
   @override
-  State<DropDownField> createState() => _DropDownFieldState();
+  State<AppoinmentDropDownField> createState() => _AppoinmentDropDownFieldState();
 }
 
-class _DropDownFieldState extends State<DropDownField> {
-  // final List<String> items = [
-  //   'A_Item1',
-  //   'A_Item2',
-  //   'A_Item3',
-  //   'A_Item4',
-  //   'B_Item1',
-  //   'B_Item2',
-  //   'B_Item3',
-  //   'B_Item4',
-  //   "kader",
-  //   "korim",
-  //   "Nibir",
-  //   "Meharab",
-  // ];
-
+class _AppoinmentDropDownFieldState extends State<AppoinmentDropDownField> {
   String? selectedValue;
   final TextEditingController textEditingController = TextEditingController();
 
@@ -55,8 +40,8 @@ class _DropDownFieldState extends State<DropDownField> {
                   value: item,
                   child: Text(
                     item,
-                    style: const TextStyle(
-                      fontSize: 14,
+                    style: TextStyle(
+                      fontSize: 14.sp,
                     ),
                   ),
                 ))
@@ -69,12 +54,12 @@ class _DropDownFieldState extends State<DropDownField> {
         },
         buttonStyleData: ButtonStyleData(
           padding: const EdgeInsets.symmetric(horizontal: 16),
-          height: 35.h,
+          height: 40.h,
           width: double.infinity,
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(5),
             border: Border.all(
-              color: const Color.fromARGB(255, 255, 255, 255),
+              color: const Color.fromARGB(255, 187, 187, 187),
             ),
             color: Colors.white,
           ),
