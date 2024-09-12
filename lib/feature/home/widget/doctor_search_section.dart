@@ -1,5 +1,6 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:carousel_slider/carousel_slider.dart';
+import 'package:docment/feature/home/presentation/doctor_list_screen.dart';
 import 'package:docment/feature/home/widget/drop_down_field.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bounceable/flutter_bounceable.dart';
@@ -104,7 +105,14 @@ class DoctorSearchSection extends StatelessWidget {
                 ),
                 verticalGap(10.h),
                 Bounceable(
-                    onTap: () {},
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => const DoctorListScreen(),
+                        ),
+                      );
+                    },
                     child: Container(
                       height: 33.h,
                       width: MediaQuery.of(context).size.width / 2,

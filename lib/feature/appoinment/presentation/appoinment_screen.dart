@@ -1,5 +1,6 @@
 import 'package:docment/core/const_design.dart';
 import 'package:docment/feature/appoinment/widget/dropdown_field.dart';
+import 'package:docment/feature/authentication/presentation/registration_screen.dart';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
@@ -114,12 +115,16 @@ class _AppoinmentScreenState extends State<AppoinmentScreen> {
               items: ["11:00 AM", "11:30 AM", "12:00 PM", "12:30 PM"]),
           verticalGap(20.h),
           Bounceable(
-              onTap: () {},
+              onTap: () {
+                Navigator.push(context, MaterialPageRoute(builder: (context) {
+                  return const RegistrationScreen();
+                }));
+              },
               child: Container(
                 height: 33.h,
                 width: MediaQuery.of(context).size.width / 2,
                 decoration: BoxDecoration(
-                  color: const Color.fromARGB(255, 255, 104, 104),
+                  color: Colors.redAccent,
                   borderRadius: BorderRadius.circular(3.r),
                 ),
                 child: Center(

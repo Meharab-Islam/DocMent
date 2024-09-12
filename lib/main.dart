@@ -52,8 +52,14 @@ class _MyAppState extends State<MyApp> {
       builder: (context, child) => MaterialApp(
         debugShowCheckedModeBanner: false,
         theme: ThemeData(
-          primarySwatch: Colors.blue,
-        ),
+            primarySwatch: Colors.blue, primaryColor: Colors.redAccent,
+            datePickerTheme: DatePickerThemeData(
+            primaryColor: Colors.red, //Head background
+            accentColor: Colors.red, //selection color
+            dialogBackgroundColor: Colors.white, /
+            )
+            
+            ),
         home: Scaffold(
           appBar: AppBar(
             title: Image.asset(
@@ -61,6 +67,7 @@ class _MyAppState extends State<MyApp> {
               height: 100.h,
               width: 120.w,
             ),
+            centerTitle: true,
             actions: [
               IconButton(
                 onPressed: () {},
