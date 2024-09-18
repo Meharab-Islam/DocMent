@@ -1,12 +1,12 @@
 import 'package:docment/core/const_design.dart';
-import 'package:docment/feature/authentication/presentation/login_screen.dart';
+import 'package:docment/feature/authentication/patients/presentation/login_screen.dart';
 import 'package:docment/feature/authentication/widget/custom_textfield.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bounceable/flutter_bounceable.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-class RegistrationScreen extends StatelessWidget {
-  const RegistrationScreen({super.key});
+class PatientRegistrationScreen extends StatelessWidget {
+  const PatientRegistrationScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -106,7 +106,7 @@ class RegistrationScreen extends StatelessWidget {
                               context,
                               MaterialPageRoute(
                                   builder: (context) =>
-                                      const LoginScreen()));
+                                      const PatientLoginScreen()));
                         },
                         child: Text(
                           'Login',

@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:docment/feature/about-us/widget/about_details_card.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
+import '../../../core/widget/text_style.dart';
+
 class AboutUsDetailsScreen extends StatelessWidget {
   const AboutUsDetailsScreen({super.key});
 
@@ -10,7 +12,7 @@ class AboutUsDetailsScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text("About Us"),
+        title:  titleText(text: "About Us"),
         centerTitle: true,
       ),
       body: Padding(

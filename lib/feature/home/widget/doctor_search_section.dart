@@ -1,5 +1,6 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:carousel_slider/carousel_slider.dart';
+import 'package:docment/core/widget/text_style.dart';
 import 'package:docment/feature/home/presentation/doctor_list_screen.dart';
 import 'package:docment/feature/home/widget/drop_down_field.dart';
 import 'package:flutter/material.dart';
@@ -61,17 +62,15 @@ class DoctorSearchSection extends StatelessWidget {
             child: Column(
               children: [
                 const Spacer(),
-                Text(
-                  "Search The Best Doctors",
-                  style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 24.sp,
-                      fontWeight: FontWeight.bold),
+                titleText(
+                  text: "Search The Best Doctors",
+                  color: Colors.white,
                   textAlign: TextAlign.center,
                 ),
-                Text(
-                  "Find out department and location based doctors near your area",
-                  style: TextStyle(color: Colors.white, fontSize: 15.sp),
+                bodyText(
+                  text:
+                      "Find out department and location based doctors near your area",
+                  color: Colors.white,
                   textAlign: TextAlign.center,
                 ),
                 verticalGap(20.h),

@@ -1,12 +1,13 @@
 import 'package:docment/core/const_design.dart';
 import 'package:docment/feature/appoinment/widget/dropdown_field.dart';
-import 'package:docment/feature/authentication/presentation/registration_screen.dart';
+import 'package:docment/feature/authentication/patients/presentation/registration_screen.dart';
 
 import 'package:flutter/material.dart';
-import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_bounceable/flutter_bounceable.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:intl/intl.dart';
+
+import '../../../core/widget/text_style.dart';
 
 class AppoinmentScreen extends StatefulWidget {
   const AppoinmentScreen({super.key});
@@ -23,16 +24,24 @@ class _AppoinmentScreenState extends State<AppoinmentScreen> {
     final DateTime currentDate = DateTime.now();
     final DateTime initialDate = _selectedDate ?? currentDate;
     final DateTime? pickedDate = await showDatePicker(
+      initialEntryMode: DatePickerEntryMode.calendarOnly,
       context: context,
       initialDate: initialDate,
-      firstDate: DateTime(currentDate.year - 10),
+      firstDate: DateTime.now(),
       lastDate: DateTime(currentDate.year + 10),
       builder: (BuildContext context, Widget? child) {
         return Theme(
-          data: ThemeData.light().copyWith(
-            primaryColor: Colors.blue,
-            hintColor: Colors.blue,
-            buttonTheme: ButtonThemeData(textTheme: ButtonTextTheme.primary),
+          data: Theme.of(context).copyWith(
+            colorScheme: const ColorScheme.light(
+              primary: Colors.red, // Header background color
+              onPrimary: Colors.white, // Header text color
+              onSurface: Colors.black, // Body text color
+            ),
+            textButtonTheme: TextButtonThemeData(
+              style: TextButton.styleFrom(
+                foregroundColor: Colors.red, // Button text color
+              ),
+            ),
           ),
           child: child!,
         );
@@ -52,14 +61,10 @@ class _AppoinmentScreenState extends State<AppoinmentScreen> {
         padding: EdgeInsets.symmetric(horizontal: 12.5.w),
         child: ListView(children: [
           verticalGap(20.h),
-          Text(
-            "Create Appoinment",
-            style: TextStyle(
-                fontSize: 25.sp,
-                fontWeight: FontWeight.bold,
-                color: Colors.black),
+          titleText(
+            text: "Create Appoinment",
             textAlign: TextAlign.center,
-          ).animate().fadeIn(duration: 1500.ms),
+          ),
           verticalGap(20.h),
           const AppoinmentDropDownField(
               title: "Select Department",
@@ -117,7 +122,8 @@ class _AppoinmentScreenState extends State<AppoinmentScreen> {
           Bounceable(
               onTap: () {
                 Navigator.push(context, MaterialPageRoute(builder: (context) {
-                  return const RegistrationScreen();
+                  return const PatientRegistrationScreen();
+                  // return const DoctorRegistrationScreen();
                 }));
               },
               child: Container(

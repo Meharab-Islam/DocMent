@@ -1,14 +1,18 @@
 import 'package:docment/core/const_design.dart';
+import 'package:docment/feature/authentication/doctor/presentation/registration_screen.dart';
 import 'package:docment/feature/authentication/widget/custom_textfield.dart';
+import 'package:docment/feature/dashboard/doctor/presentation/dashboard_main_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bounceable/flutter_bounceable.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-class LoginScreen extends StatelessWidget {
-  const LoginScreen({super.key});
+class DoctorLoginScreen extends StatelessWidget {
+  const DoctorLoginScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
+    TextEditingController _emailController = TextEditingController();
+    TextEditingController _passwordController = TextEditingController();
     return Container(
       height: double.infinity,
       width: double.infinity,
@@ -45,7 +49,7 @@ class LoginScreen extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.end,
                   children: [
                     Text(
-                      'Login as User',
+                      'Login as Doctor',
                       style: TextStyle(
                         color: Colors.white,
                         fontSize: 32.0.sp,
@@ -66,7 +70,25 @@ class LoginScreen extends StatelessWidget {
                     ),
                     verticalGap(10.h),
                     Bounceable(
-                        onTap: () {},
+                        onTap: () {
+                          // if (_emailController.text == "doctor@gmail.com" ||
+                          //     _passwordController.text == "1234") {
+                          // Navigator.push(
+                          //     context,
+                          //     MaterialPageRoute(
+                          //         builder: (context) =>
+                          //             DashboardMainScreen()));
+                          // } else {
+                          //   ScaffoldMessenger.of(context).showSnackBar(
+                          //     const SnackBar(
+                          //         content: Text('Something went wrong.')),
+                          //   );
+                          // }
+                          Navigator.pushReplacement(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => DashboardMainScreen()));
+                        },
                         child: Container(
                           height: 33.h,
                           // width: MediaQuery.of(context).size.width / 2,
@@ -77,7 +99,7 @@ class LoginScreen extends StatelessWidget {
                           ),
                           child: Center(
                             child: Text(
-                              "Register",
+                              "Login",
                               style: TextStyle(
                                   color: Colors.white,
                                   fontSize: 15.sp,
@@ -97,9 +119,15 @@ class LoginScreen extends StatelessWidget {
                           ),
                         ),
                         TextButton(
-                          onPressed: () {},
+                          onPressed: () {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) =>
+                                        DoctorRegistrationScreen()));
+                          },
                           child: Text(
-                            'Login',
+                            'Register',
                             style: TextStyle(
                               color: Colors.redAccent,
                               fontSize: 15.sp,

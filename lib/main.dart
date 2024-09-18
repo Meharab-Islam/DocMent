@@ -1,5 +1,6 @@
 import 'package:docment/feature/about-us/presentation/about_us_screen.dart';
 import 'package:docment/feature/appoinment/presentation/appoinment_screen.dart';
+import 'package:docment/feature/global/onboarding_screen.dart';
 import 'package:docment/feature/home/presentation/home_presentation_screen.dart';
 import 'package:flashy_tab_bar2/flashy_tab_bar2.dart';
 import 'package:flutter/material.dart';
@@ -7,6 +8,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import 'core/app_image.dart';
+import 'feature/dashboard/doctor/presentation/dashboard_main_screen.dart';
 
 void main() {
   SystemChrome.setPreferredOrientations([
@@ -15,6 +17,7 @@ void main() {
   ]);
 
   runApp(const MyApp());
+  // runApp(const DashboardMainScreen());
 }
 
 class MyApp extends StatefulWidget {
@@ -47,114 +50,121 @@ class _MyAppState extends State<MyApp> {
 
   @override
   Widget build(BuildContext context) {
+    
     return ScreenUtilInit(
       designSize: Size(360, 640),
       builder: (context, child) => MaterialApp(
         debugShowCheckedModeBanner: false,
         theme: ThemeData(
-            primarySwatch: Colors.blue, primaryColor: Colors.redAccent,
-            datePickerTheme: DatePickerThemeData(
-            primaryColor: Colors.red, //Head background
-            accentColor: Colors.red, //selection color
-            dialogBackgroundColor: Colors.white, /
-            )
-            
-            ),
-        home: Scaffold(
-          appBar: AppBar(
-            title: Image.asset(
-              logo,
-              height: 100.h,
-              width: 120.w,
-            ),
-            centerTitle: true,
-            actions: [
-              IconButton(
-                onPressed: () {},
-                icon: const Icon(Icons.notifications_none_outlined),
-              ),
-            ],
+          primarySwatch: Colors.red, // Main color theme
+          colorScheme: const ColorScheme.light(
+            primary: Colors.blue, // Header background color
+            onPrimary: Colors.white, // Header text color
+            onSurface: Color.fromARGB(255, 66, 66, 66), // Body text color
           ),
-          drawer: const Drawer(),
-          body: Center(
-            child: _widgetOptions[_selectedIndex],
-          ),
-          bottomNavigationBar: SizedBox(
-            height: 55.h,
-            child: FlashyTabBar(
-              backgroundColor: Colors.white, // Background color of the tab bar
-              animationCurve: Curves.linear,
-              selectedIndex: _selectedIndex,
-              iconSize: 25.sp,
-              showElevation: true, // Use this to remove appBar's elevation
-              onItemSelected: (index) => setState(() {
-                _selectedIndex = index;
-              }),
-              items: [
-                FlashyTabBarItem(
-                  icon: Icon(Icons.home,
-                      color: _selectedIndex == 0
-                          ? Colors.blue
-                          : Colors.grey), // Icon color
-                  title: Text(
-                    'Home',
-                    style: TextStyle(
-                      fontSize: 14.sp,
-                      color: _selectedIndex == 0
-                          ? Colors.blue
-                          : Colors.grey, // Text color
-                    ),
-                  ),
-                ),
-                FlashyTabBarItem(
-                  icon: Icon(Icons.calendar_month,
-                      color: _selectedIndex == 1
-                          ? Colors.blue
-                          : Colors.grey), // Icon color
-                  title: Text(
-                    'Date',
-                    style: TextStyle(
-                      fontSize: 14.sp,
-                      color: _selectedIndex == 1
-                          ? Colors.blue
-                          : Colors.grey, // Text color
-                    ),
-                  ),
-                ),
-                FlashyTabBarItem(
-                  icon: Icon(Icons.business,
-                      color: _selectedIndex == 2
-                          ? Colors.blue
-                          : Colors.grey), // Icon color
-                  title: Text(
-                    'Hospital',
-                    style: TextStyle(
-                      fontSize: 14.sp,
-                      color: _selectedIndex == 2
-                          ? Colors.blue
-                          : Colors.grey, // Text color
-                    ),
-                  ),
-                ),
-                FlashyTabBarItem(
-                  icon: Icon(Icons.people,
-                      color: _selectedIndex == 3
-                          ? Colors.blue
-                          : Colors.grey), // Icon color
-                  title: Text(
-                    'Profile',
-                    style: TextStyle(
-                      fontSize: 14.sp,
-                      color: _selectedIndex == 3
-                          ? Colors.blue
-                          : Colors.grey, // Text color
-                    ),
-                  ),
-                ),
-              ],
+          textButtonTheme: TextButtonThemeData(
+            style: TextButton.styleFrom(
+              foregroundColor: Colors.red, // Button text color
             ),
           ),
         ),
+        home: OnBoardingPage(),
+        // home: Scaffold(
+        //   resizeToAvoidBottomInset: false,
+        //   appBar: AppBar(
+        //     title: Image.asset(
+        //       logo,
+        //       height: 100.h,
+        //       width: 120.w,
+        //     ),
+        //     centerTitle: true,
+        //     actions: [
+        //       IconButton(
+        //         onPressed: () {},
+        //         icon: const Icon(Icons.notifications_none_outlined),
+        //       ),
+        //     ],
+        //   ),
+        //   drawer: const Drawer(),
+        //   body: Center(
+        //     child: _widgetOptions[_selectedIndex],
+        //   ),
+        //   bottomNavigationBar: SizedBox(
+        //     height: 55.h,
+        //     child: FlashyTabBar(
+        //       backgroundColor: Colors.white, // Background color of the tab bar
+        //       animationCurve: Curves.linear,
+        //       selectedIndex: _selectedIndex,
+        //       iconSize: 25.sp,
+        //       showElevation: true, // Use this to remove appBar's elevation
+        //       onItemSelected: (index) => setState(() {
+        //         _selectedIndex = index;
+        //       }),
+        //       items: [
+        //         FlashyTabBarItem(
+        //           icon: Icon(Icons.home,
+        //               color: _selectedIndex == 0
+        //                   ? Colors.blue
+        //                   : Colors.grey), // Icon color
+        //           title: Text(
+        //             'Home',
+        //             style: TextStyle(
+        //               fontSize: 14.sp,
+        //               color: _selectedIndex == 0
+        //                   ? Colors.blue
+        //                   : Colors.grey, // Text color
+        //             ),
+        //           ),
+        //         ),
+        //         FlashyTabBarItem(
+        //           icon: Icon(Icons.calendar_month,
+        //               color: _selectedIndex == 1
+        //                   ? Colors.blue
+        //                   : Colors.grey), // Icon color
+        //           title: Text(
+        //             'Date',
+        //             style: TextStyle(
+        //               fontSize: 14.sp,
+        //               color: _selectedIndex == 1
+        //                   ? Colors.blue
+        //                   : Colors.grey, // Text color
+        //             ),
+        //           ),
+        //         ),
+        //         FlashyTabBarItem(
+        //           icon: Icon(Icons.business,
+        //               color: _selectedIndex == 2
+        //                   ? Colors.blue
+        //                   : Colors.grey), // Icon color
+        //           title: Text(
+        //             'Hospital',
+        //             style: TextStyle(
+        //               fontSize: 14.sp,
+        //               color: _selectedIndex == 2
+        //                   ? Colors.blue
+        //                   : Colors.grey, // Text color
+        //             ),
+        //           ),
+        //         ),
+        //         FlashyTabBarItem(
+        //           icon: Icon(Icons.people,
+        //               color: _selectedIndex == 3
+        //                   ? Colors.blue
+        //                   : Colors.grey), // Icon color
+        //           title: Text(
+        //             'Profile',
+        //             style: TextStyle(
+        //               fontSize: 14.sp,
+        //               color: _selectedIndex == 3
+        //                   ? Colors.blue
+        //                   : Colors.grey, // Text color
+        //             ),
+        //           ),
+        //         ),
+        //       ],
+        //     ),
+        //   ),
+        // ),
       ),
     );
   }

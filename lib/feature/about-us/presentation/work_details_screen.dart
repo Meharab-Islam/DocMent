@@ -1,4 +1,5 @@
 import 'package:docment/core/const_design.dart';
+import 'package:docment/core/widget/text_style.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:getwidget/components/accordion/gf_accordion.dart';
@@ -10,9 +11,8 @@ class WorkDetailsScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(
-          'How We Work',
-          style: TextStyle(fontSize: 25.sp),
+        title: titleText(
+          text: 'How We Work',
         ),
         centerTitle: true,
       ),
@@ -20,13 +20,10 @@ class WorkDetailsScreen extends StatelessWidget {
         padding: EdgeInsets.symmetric(horizontal: 20.w),
         child: ListView(
           children: [
-            Text(
-              'Lorem ipsum dolor sit amet, an labores explicari qui, eu nostrum copiosae argumentum has. Latine propriae quo no, unum ridens expetenda id sit, at usu eius eligendi singulis ',
-              style: TextStyle(
-                fontSize: 17.sp,
-              ),
-              textAlign: TextAlign.center,
-            ),
+            bodyText(
+                text:
+                    "Lorem ipsum dolor sit amet, an labores explicari qui, eu nostrum copiosae argumentum has. Latine propriae quo no, unum ridens expetenda id sit, at usu eius eligendi singulis",
+                textAlign: TextAlign.center),
             verticalGap(10.h),
             SizedBox(
                 height: 150.h,
@@ -56,16 +53,13 @@ class WorkDetailsScreen extends StatelessWidget {
                   ],
                 )),
             verticalGap(10.h),
-            Text(
-              'Get our medical service and ensure your physical health',
-              style: TextStyle(fontSize: 27.sp, fontWeight: FontWeight.bold),
-              textAlign: TextAlign.center,
-            ),
-            Text(
-              "Lorem ipsum dolor sit amet, an labores explicari qui, eu nostrum copiosae argumentum has. Latine propriae quo no, unum ridens expetenda id sit, at usu eius eligendi singulis.",
-              style: TextStyle(fontSize: 17.sp),
-              textAlign: TextAlign.center,
-            ),
+            titleText(
+                text: 'Get our medical service and ensure your physical health',
+                textAlign: TextAlign.center),
+            bodyText(
+                text:
+                    "Lorem ipsum dolor sit amet, an labores explicari qui, eu nostrum copiosae argumentum has. Latine propriae quo no, unum ridens expetenda id sit, at usu eius eligendi singulis",
+                textAlign: TextAlign.center),
             verticalGap(10.h),
             GFAccordion(
                 collapsedTitleBackgroundColor: Colors.blue,

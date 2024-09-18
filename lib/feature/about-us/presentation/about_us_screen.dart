@@ -1,4 +1,5 @@
 import 'package:docment/core/const_design.dart';
+import 'package:docment/core/widget/squre_card_widgets.dart';
 import 'package:docment/feature/about-us/presentation/about_us_details_screen.dart';
 import 'package:docment/feature/about-us/presentation/work_details_screen.dart';
 import 'package:flutter/material.dart';
@@ -36,130 +37,11 @@ class AboutUsScreen extends StatelessWidget {
                 runSpacing: 6.h,
                 // spacing: 5.w,
                 children: [
-                  Container(
-                    height: height,
-                    width: width,
-                    decoration: boxDecoration,
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        Icon(
-                          Icons.people_alt_outlined,
-                          color: Colors.white,
-                          size: 40.sp,
-                        ).animate().fade(delay: 200.ms).scale(delay: 200.ms),
-                        Text(
-                          "500+",
-                          style: TextStyle(
-                            color: Colors.white,
-                            fontSize: 40.sp,
-                            fontWeight: FontWeight.w500,
-                          ),
-                        ).animate().fade(duration: 200.ms).scale(delay: 200.ms),
-                        Text(
-                          "Patients",
-                          style: TextStyle(
-                              color: Colors.white,
-                              fontSize: 16.sp,
-                              fontWeight: FontWeight.normal),
-                        ).animate().fade(delay: 200.ms).scale(delay: 200.ms),
-                      ],
-                    ),
-                  ),
-                  Container(
-                    height: height,
-                    width: width,
-                    decoration: boxDecoration,
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        Icon(
-                          Icons.business_center_outlined,
-                          color: Colors.white,
-                          size: 40.sp,
-                        ).animate().fade(delay: 200.ms).scale(delay: 200.ms),
-                        Text(
-                          "16",
-                          style: TextStyle(
-                            color: Colors.white,
-                            fontSize: 40.sp,
-                            fontWeight: FontWeight.w500,
-                          ),
-                        ).animate().fade(duration: 200.ms).scale(delay: 200.ms),
-                        Text(
-                          "Departments",
-                          style: TextStyle(
-                              color: Colors.white,
-                              fontSize: 16.sp,
-                              fontWeight: FontWeight.normal),
-                        ).animate().fade(delay: 200.ms).scale(delay: 200.ms),
-                      ],
-                    ),
-                  ),
-                  Container(
-                    height: height,
-                    width: width,
-                    decoration: boxDecoration,
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        Icon(
-                          Icons.people_alt_outlined,
-                          color: Colors.white,
-                          size: 40.sp,
-                        ).animate().fade(delay: 200.ms).scale(delay: 200.ms),
-                        Text(
-                          "50",
-                          style: TextStyle(
-                            color: Colors.white,
-                            fontSize: 40.sp,
-                            fontWeight: FontWeight.w500,
-                          ),
-                        ).animate().fade(duration: 200.ms).scale(delay: 200.ms),
-                        Text(
-                          "Expert Doctors",
-                          style: TextStyle(
-                              color: Colors.white,
-                              fontSize: 16.sp,
-                              fontWeight: FontWeight.normal),
-                        ).animate().fade(delay: 200.ms).scale(delay: 200.ms),
-                      ],
-                    ),
-                  ),
-                  Container(
-                    height: height,
-                    width: width,
-                    decoration: boxDecoration,
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        Icon(
-                          Icons.favorite_border_outlined,
-                          color: Colors.white,
-                          size: 40.sp,
-                        ).animate().fade(delay: 200.ms).scale(delay: 200.ms),
-                        Text(
-                          "120",
-                          style: TextStyle(
-                            color: Colors.white,
-                            fontSize: 40.sp,
-                            fontWeight: FontWeight.w500,
-                          ),
-                        ).animate().fade(duration: 200.ms).scale(delay: 200.ms),
-                        Text(
-                          "Total Labs",
-                          style: TextStyle(
-                              color: Colors.white,
-                              fontSize: 16.sp,
-                              fontWeight: FontWeight.normal),
-                        ).animate().fade(delay: 200.ms).scale(delay: 200.ms),
-                      ],
-                    ),
-                  ),
+                  squireCard(context: context, count: "500+", title:  "Patients", icon: Icons.people_alt_outlined),
+                  squireCard(context: context, count: "16", title:  "Departments", icon: Icons.business_center_outlined),
+                  squireCard(context: context, count: "50", title:  "Expert Doctors", icon: Icons.people_alt_outlined),
+                  squireCard(context: context, count: "120", title:  "Total Labs", icon: Icons.favorite_border_outlined),
+                  
                 ],
               ),
             ),
