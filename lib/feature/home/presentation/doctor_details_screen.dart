@@ -1,4 +1,5 @@
 import 'package:docment/core/const_design.dart';
+import 'package:docment/core/widget/button.dart';
 import 'package:docment/feature/home/widget/bottom_sheet_section.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bounceable/flutter_bounceable.dart';
@@ -97,28 +98,14 @@ class DoctorDetailsScreen extends StatelessWidget {
                       ],
                     ),
                     verticalGap(10.h),
-                    Bounceable(
+                   SubmitButton(
+                          height: 33.h,
+                          // // width: MediaQuery.of(context).size.width / 2,
+                          width: 130.w,
+                        text: "Appinment",
                         onTap: () {
                           showCustomBottomSheet(context);
-                        },
-                        child: Container(
-                          height: 33.h,
-                          // width: MediaQuery.of(context).size.width / 2,
-                          width: 130.w,
-                          decoration: BoxDecoration(
-                            color: Colors.redAccent,
-                            borderRadius: BorderRadius.circular(3.r),
-                          ),
-                          child: Center(
-                            child: Text(
-                              "Appointment",
-                              style: TextStyle(
-                                  color: Colors.white,
-                                  fontSize: 15.sp,
-                                  fontWeight: FontWeight.w400),
-                            ),
-                          ),
-                        )),
+                        })
                   ],
                 ),
               ],

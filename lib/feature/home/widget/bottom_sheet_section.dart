@@ -1,6 +1,8 @@
+import 'package:docment/feature/authentication/patients/presentation/login_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bounceable/flutter_bounceable.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 
 import '../../../core/const_design.dart';
@@ -90,7 +92,9 @@ class _BottomSheetContentState extends State<BottomSheetContent> {
           ),
           verticalGap(20.h),
           Bounceable(
-              onTap: () {},
+              onTap: () {
+                Get.to(PatientLoginScreen());
+              },
               child: Container(
                 height: 33.h,
                 // width: MediaQuery.of(context).size.width / 2,

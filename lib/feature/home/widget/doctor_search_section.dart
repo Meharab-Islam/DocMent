@@ -1,8 +1,9 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:carousel_slider/carousel_slider.dart';
+import 'package:docment/core/widget/button.dart';
 import 'package:docment/core/widget/text_style.dart';
+import 'package:docment/feature/global/presentation/dropdown_search_button.dart';
 import 'package:docment/feature/home/presentation/doctor_list_screen.dart';
-import 'package:docment/feature/home/widget/drop_down_field.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bounceable/flutter_bounceable.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -74,14 +75,17 @@ class DoctorSearchSection extends StatelessWidget {
                   textAlign: TextAlign.center,
                 ),
                 verticalGap(20.h),
-                const DropDownField(
+                DropDownField(
                   title: 'Select Location',
-                  items: ["Boston", "Chicago", "Los Angeles", "New York"],
+                  items: const ["Boston", "Chicago", "Los Angeles", "New York"],
+                  onItemSelected: (value) {
+                    print(value);
+                  },
                 ),
                 verticalGap(10.h),
-                const DropDownField(
+                DropDownField(
                   title: 'Select Department',
-                  items: [
+                  items: const [
                     "Cardiology",
                     "Neurology",
                     "Opthalmology",
@@ -89,11 +93,14 @@ class DoctorSearchSection extends StatelessWidget {
                     "Radiology",
                     "Urology",
                   ],
+                  onItemSelected: (value) {
+                    debugPrint("value is $value");
+                  },
                 ),
                 verticalGap(10.h),
-                const DropDownField(
+                DropDownField(
                   title: 'Select Doctor',
-                  items: [
+                  items: const [
                     "Dr. John Doe",
                     "Dr. Jane Smith",
                     "Dr. Michael Johnson",
@@ -101,9 +108,15 @@ class DoctorSearchSection extends StatelessWidget {
                     "Dr. Olivia Chen",
                     "Dr. David Kim",
                   ],
+                  onItemSelected: (value) {
+                    print(value);
+                  },
                 ),
                 verticalGap(10.h),
-                Bounceable(
+                SubmitButton(
+                    height: 33.h,
+                    width: MediaQuery.of(context).size.width / 2,
+                    text: "Search",
                     onTap: () {
                       Navigator.push(
                         context,
@@ -111,24 +124,7 @@ class DoctorSearchSection extends StatelessWidget {
                           builder: (context) => const DoctorListScreen(),
                         ),
                       );
-                    },
-                    child: Container(
-                      height: 33.h,
-                      width: MediaQuery.of(context).size.width / 2,
-                      decoration: BoxDecoration(
-                        color: const Color.fromARGB(255, 255, 104, 104),
-                        borderRadius: BorderRadius.circular(3.r),
-                      ),
-                      child: Center(
-                        child: Text(
-                          "Search",
-                          style: TextStyle(
-                              color: Colors.white,
-                              fontSize: 12.sp,
-                              fontWeight: FontWeight.w400),
-                        ),
-                      ),
-                    )),
+                    }),
                 const Spacer(),
               ],
             ),
