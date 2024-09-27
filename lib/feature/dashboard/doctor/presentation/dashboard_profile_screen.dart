@@ -5,10 +5,6 @@ class DoctorProfileScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Doctor Profile'),
-        backgroundColor: Colors.redAccent,
-      ),
       body: SingleChildScrollView(
         child: Padding(
           padding: const EdgeInsets.all(16.0),
@@ -46,7 +42,7 @@ class DoctorProfileScreen extends StatelessWidget {
               const SizedBox(height: 20),
 
               // Contact Info
-            const  Card(
+              const Card(
                 elevation: 5,
                 child: Padding(
                   padding: const EdgeInsets.all(16.0),
@@ -85,7 +81,7 @@ class DoctorProfileScreen extends StatelessWidget {
               const SizedBox(height: 20),
 
               // Experience and Specialization
-            const  Card(
+              const Card(
                 elevation: 5,
                 child: Padding(
                   padding: const EdgeInsets.all(16.0),

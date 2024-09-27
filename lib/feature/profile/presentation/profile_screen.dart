@@ -70,7 +70,7 @@ class ProfileScreen extends StatelessWidget {
         onPressed: () {
           Get.to(EditProfileScreen());
         },
-        child:  Icon(Icons.edit),
+        child: Icon(Icons.edit),
         backgroundColor: Colors.deepOrangeAccent,
       ),
     );
@@ -79,7 +79,7 @@ class ProfileScreen extends StatelessWidget {
   // Helper Method to Build Profile Card with Animations and Icons
   Widget _buildProfileCard(String label, String value, IconData icon) {
     return Card(
-      elevation: 8,
+      elevation: 2,
       shadowColor: Colors.blueAccent.withOpacity(0.4),
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(15),

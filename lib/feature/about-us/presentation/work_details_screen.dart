@@ -14,7 +14,8 @@ class WorkDetailsScreen extends StatelessWidget {
         title: titleText(
           text: 'How We Work',
         ),
-        centerTitle: true,
+        // centerTitle: true,
+        backgroundColor: Colors.deepOrange,
       ),
       body: Padding(
         padding: EdgeInsets.symmetric(horizontal: 20.w),

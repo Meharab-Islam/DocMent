@@ -3,10 +3,12 @@ import 'package:carousel_slider/carousel_slider.dart';
 import 'package:docment/core/widget/button.dart';
 import 'package:docment/core/widget/text_style.dart';
 import 'package:docment/feature/global/presentation/dropdown_search_button.dart';
+import 'package:docment/feature/home/controller/location_data_controller.dart';
 import 'package:docment/feature/home/presentation/doctor_list_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bounceable/flutter_bounceable.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:get/get.dart';
 
 import '../../../core/const_design.dart';
 
@@ -15,6 +17,7 @@ class DoctorSearchSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    LocationController _locationController = Get.put(LocationController());
     List image = [
       'https://images.pexels.com/photos/40568/medical-appointment-doctor-healthcare-40568.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1,',
       "https://images.pexels.com/photos/356040/pexels-photo-356040.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
@@ -75,13 +78,19 @@ class DoctorSearchSection extends StatelessWidget {
                   textAlign: TextAlign.center,
                 ),
                 verticalGap(20.h),
-                DropDownField(
-                  title: 'Select Location',
-                  items: const ["Boston", "Chicago", "Los Angeles", "New York"],
-                  onItemSelected: (value) {
-                    print(value);
-                  },
-                ),
+                Obx(() {
+                  if (_locationController.is_loading.value == true) {
+                    return const CircularProgressIndicator();
+                  } else {
+                    return DropDownField(
+                      title: 'Select Location',
+                      items: _locationController.locations.value,
+                      onItemSelected: (value) {
+                        print(value);
+                      },
+                    );
+                  }
+                }),
                 verticalGap(10.h),
                 DropDownField(
                   title: 'Select Department',

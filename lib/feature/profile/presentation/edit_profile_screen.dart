@@ -133,7 +133,7 @@ class EditProfileScreen extends StatelessWidget {
                         padding:
                             EdgeInsets.symmetric(horizontal: 40, vertical: 15),
                         shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(20),
+                          borderRadius: BorderRadius.circular(7),
                         ),
                       ),
                     ),

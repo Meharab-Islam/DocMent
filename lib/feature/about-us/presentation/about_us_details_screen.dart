@@ -12,8 +12,9 @@ class AboutUsDetailsScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title:  titleText(text: "About Us"),
-        centerTitle: true,
+        title: titleText(text: "About Us"),
+        backgroundColor: Colors.deepOrange,
+        // centerTitle: true,
       ),
       body: Padding(
         padding: EdgeInsets.symmetric(horizontal: 16.w),

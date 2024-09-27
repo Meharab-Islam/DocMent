@@ -10,15 +10,17 @@ import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
+import 'package:get_storage/get_storage.dart';
 
 import 'core/app_image.dart';
 import 'feature/global/domain/navigationbar_tab_controller.dart';
 
-void main() {
+void main() async {
   SystemChrome.setPreferredOrientations([
     DeviceOrientation.portraitUp,
     DeviceOrientation.portraitDown,
   ]);
+  await GetStorage.init();
 
   runApp(MyApp());
   // runApp(const DashboardMainScreen());
@@ -83,7 +85,10 @@ class HomePage extends StatelessWidget {
             onPressed: () {
               Get.to(() => ChatListScreen());
             },
-            icon: const Icon(FontAwesomeIcons.facebookMessenger),
+            icon: Icon(
+              FontAwesomeIcons.message,
+              size: 20.sp,
+            ),
           ),
         ],
       ),

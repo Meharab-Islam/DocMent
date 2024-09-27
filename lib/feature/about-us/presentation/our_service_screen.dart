@@ -1,3 +1,4 @@
+import 'package:docment/core/widget/text_style.dart';
 import 'package:docment/feature/about-us/domain/our_services_controller.dart';
 import 'package:docment/feature/about-us/presentation/service_detalis_screen.dart';
 import 'package:flutter/material.dart';
@@ -11,7 +12,7 @@ class ServicePage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Our Services'),
+        title: titleText(text: 'Our Services'),
         backgroundColor: Colors.deepOrange,
       ),
       body: Obx(() {

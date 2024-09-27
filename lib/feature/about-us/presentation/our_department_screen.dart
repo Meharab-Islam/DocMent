@@ -1,3 +1,4 @@
+import 'package:docment/core/widget/text_style.dart';
 import 'package:docment/feature/about-us/domain/our_departments_controller.dart';
 import 'package:docment/feature/about-us/domain/our_services_controller.dart';
 import 'package:docment/feature/about-us/presentation/our_department_details_screen.dart';
@@ -14,7 +15,7 @@ class OurDepartmentScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Our Departments'),
+        title: titleText(text: 'Our Departments'),
         backgroundColor: Colors.deepOrange,
       ),
       body: Obx(() {

@@ -1,15 +1,25 @@
 import 'package:docment/core/const_design.dart';
+import 'package:docment/feature/authentication/patients/controller/patient_login_controller.dart';
+import 'package:docment/feature/authentication/patients/data/patient_login_data.dart';
+import 'package:docment/feature/authentication/patients/model/patient_login_model.dart';
 import 'package:docment/feature/authentication/patients/presentation/registration_screen.dart';
 import 'package:docment/feature/authentication/widget/custom_textfield.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bounceable/flutter_bounceable.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:get/get.dart';
 
 class PatientLoginScreen extends StatelessWidget {
   const PatientLoginScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
+    PatientLoginController loginData =
+        Get.put(PatientLoginController(loginData: PatientLoginData()));
+
+    TextEditingController _emailController = TextEditingController();
+    TextEditingController _passwordController = TextEditingController();
+
     return Container(
       height: double.infinity,
       width: double.infinity,
@@ -57,35 +67,65 @@ class PatientLoginScreen extends StatelessWidget {
                     CustomTextfield(
                       hint: 'Email',
                       isPassword: false,
-                      controller: TextEditingController(),
+                      controller: _emailController,
                     ),
                     verticalGap(10.h),
                     CustomTextfield(
                       hint: 'Password',
                       isPassword: true,
-                      controller: TextEditingController(),
+                      controller: _passwordController,
                     ),
                     verticalGap(10.h),
-                    Bounceable(
-                        onTap: () {},
-                        child: Container(
-                          height: 33.h,
-                          // width: MediaQuery.of(context).size.width / 2,
-                          width: double.infinity,
-                          decoration: BoxDecoration(
-                            color: Colors.redAccent,
-                            borderRadius: BorderRadius.circular(3.r),
-                          ),
-                          child: Center(
-                            child: Text(
-                              "Register",
-                              style: TextStyle(
-                                  color: Colors.white,
-                                  fontSize: 15.sp,
-                                  fontWeight: FontWeight.w400),
+                    Obx(() {
+                      if (loginData.isLoading.value) {
+                        return const Center(child: CircularProgressIndicator());
+                      }
+                      return Bounceable(
+                          onTap: () {
+                            if (_emailController.text.isEmpty ||
+                                _passwordController.text.isEmpty) {
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                const SnackBar(
+                                  content: Text('Input Fields cannot be empty'),
+                                ),
+                              );
+                            } else {
+                              var patientData = PatientLoginModel(
+                                email: _emailController.text,
+                                password: _passwordController.text,
+                              );
+
+                              loginData.loginUser(patientData, context);
+
+                              print(_emailController.text);
+                              print(_passwordController.text);
+                            }
+                          },
+                          child: Container(
+                            height: 33.h,
+                            // width: MediaQuery.of(context).size.width / 2,
+                            width: double.infinity,
+                            decoration: BoxDecoration(
+                              color: Colors.redAccent,
+                              borderRadius: BorderRadius.circular(3.r),
                             ),
-                          ),
-                        )),
+                            child: Center(
+                              child: Text(
+                                "Login",
+                                style: TextStyle(
+                                    color: Colors.white,
+                                    fontSize: 15.sp,
+                                    fontWeight: FontWeight.w400),
+                              ),
+                            ),
+                          ));
+                    }),
+                    Obx(() {
+                      if (loginData.loginSuccess.value) {
+                        return Text('Registration Successful!');
+                      }
+                      return SizedBox.shrink();
+                    }),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
