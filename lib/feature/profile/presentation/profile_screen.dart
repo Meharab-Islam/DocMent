@@ -1,11 +1,11 @@
-import 'package:docment/feature/profile/domain/profile_screen_controller.dart';
+import 'package:docment/feature/profile/controller/profile_screen_controller.dart';
 import 'package:docment/feature/profile/presentation/edit_profile_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 
 class ProfileScreen extends StatelessWidget {
-  final ProfileController controller = Get.put(ProfileController());
+  final PatientController controller = Get.put(PatientController());
 
   @override
   Widget build(BuildContext context) {
@@ -14,63 +14,56 @@ class ProfileScreen extends StatelessWidget {
       body: SingleChildScrollView(
         child: Padding(
           padding: const EdgeInsets.all(16.0),
-          child: Column(
-            children: [
-              // Profile Image with Animation
-              Center(
-                child: CircleAvatar(
-                  radius: 70,
-                  backgroundImage:
-                      NetworkImage(controller.profile.profilePicture),
-                ).animate().scale(duration: 700.ms).fadeIn(),
-              ),
-              const SizedBox(height: 20),
+          child: Obx(() {
+            // Ensure profile is loaded
+            final profile = controller.patient.value;
+            if (profile == null) {
+              return const Center(child: CircularProgressIndicator());
+            }
 
-              // Profile Details Section with Icons
-              _buildProfileCard('Name', controller.profile.name, Icons.person),
-              _buildProfileCard('Email', controller.profile.email, Icons.email),
-              _buildProfileCard('Phone', controller.profile.phone, Icons.phone),
-              _buildProfileCard('Guardian Name',
-                  controller.profile.guardianName, Icons.family_restroom),
-              _buildProfileCard('Guardian Phone',
-                  controller.profile.guardianPhone, Icons.phone_android),
-              _buildProfileCard('Age', controller.profile.age, Icons.cake),
-              _buildProfileCard(
-                  'Occupation', controller.profile.occupation, Icons.work),
-              _buildProfileCard('Gender', controller.profile.gender, Icons.wc),
-              _buildProfileCard(
-                  'Address', controller.profile.address, Icons.location_on),
-              _buildProfileCard(
-                  'Country', controller.profile.country, Icons.flag),
-              _buildProfileCard(
-                  'City', controller.profile.city, Icons.location_city),
-              _buildProfileCard(
-                  'Date of Birth', controller.profile.dateOfBirth, Icons.cake),
-              _buildProfileCard(
-                  'Weight', controller.profile.weight, Icons.fitness_center),
-              _buildProfileCard(
-                  'Height', controller.profile.height, Icons.height),
-              _buildProfileCard(
-                  'Health Insurance',
-                  controller.profile.healthInsuranceNumber,
-                  Icons.health_and_safety),
-              _buildProfileCard('Health Card Number',
-                  controller.profile.healthCardNumber, Icons.card_membership),
-              _buildProfileCard('Health Provider',
-                  controller.profile.healthCardProvider, Icons.local_hospital),
-              _buildProfileCard('Blood Group', controller.profile.bloodGroup,
-                  Icons.bloodtype),
-              _buildProfileCard('Disabilities', controller.profile.disabilities,
-                  Icons.accessibility),
-            ],
-          ),
+            return Column(
+              children: [
+                // Profile Image with Animation
+                Center(
+                  child: CircleAvatar(
+                    radius: 70,
+                    backgroundImage: profile.image != null
+                        ? NetworkImage(profile.image!)
+                        : const AssetImage('assets/images/default_profile.png') as ImageProvider,
+                  ).animate().scale(duration: 700.ms).fadeIn(),
+                ),
+                const SizedBox(height: 20),
+
+                // Profile Details Section with Icons
+                _buildProfileCard('Name', profile.name ?? 'N/A', Icons.person),
+                _buildProfileCard('Email', profile.email ?? 'N/A', Icons.email),
+                _buildProfileCard('Phone', profile.details.phone ?? 'N/A', Icons.phone),
+                _buildProfileCard('Guardian Name', profile.details.guardianName ?? 'N/A', Icons.family_restroom),
+                _buildProfileCard('Guardian Phone', profile.details.guardianPhone ?? 'N/A', Icons.phone_android),
+                _buildProfileCard('Age', profile.details.age ?? 'N/A', Icons.cake),
+                _buildProfileCard('Occupation', profile.details.occupation ?? 'N/A', Icons.work),
+                _buildProfileCard('Gender', profile.details.gender ?? 'N/A', Icons.wc),
+                _buildProfileCard('Address', profile.details.address ?? 'N/A', Icons.location_on),
+                _buildProfileCard('Country', profile.details.country ?? 'N/A', Icons.flag),
+                _buildProfileCard('City', profile.details.city ?? 'N/A', Icons.location_city),
+                _buildProfileCard('Date of Birth', profile.details.dateOfBirth ?? 'N/A', Icons.cake),
+                _buildProfileCard('Weight', profile.details.weight ?? 'N/A', Icons.fitness_center),
+                _buildProfileCard('Height', profile.details.height ?? 'N/A', Icons.height),
+                _buildProfileCard('Health Insurance', profile.details.healthInsuranceNumber ?? 'N/A', Icons.health_and_safety),
+                _buildProfileCard('Health Card Number', profile.details.healthCardNumber ?? 'N/A', Icons.card_membership),
+                _buildProfileCard('Health Provider', profile.details.healthCardProvider ?? 'N/A', Icons.local_hospital),
+                _buildProfileCard('Blood Group', profile.details.bloodGroup ?? 'N/A', Icons.bloodtype),
+                _buildProfileCard('Disabilities', profile.details.disabilities ?? 'N/A', Icons.accessibility),
+              ],
+            );
+          }),
         ),
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
           Get.to(EditProfileScreen());
         },
-        child: Icon(Icons.edit),
+        child: const Icon(Icons.edit),
         backgroundColor: Colors.deepOrangeAccent,
       ),
     );

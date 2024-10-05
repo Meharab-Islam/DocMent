@@ -1,4 +1,4 @@
-import 'package:docment/feature/dashboard/doctor/domain/appoinment_controller.dart';
+import 'package:docment/feature/dashboard/doctor/controller/appoinment_controller.dart';
 import 'package:docment/feature/dashboard/doctor/presentation/appoinment/appoinment_details_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';

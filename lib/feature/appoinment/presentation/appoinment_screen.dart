@@ -1,150 +1,87 @@
-import 'package:docment/core/widget/button.dart';
-import 'package:docment/feature/appoinment/domain/appoinment_screen_controller.dart';
+import 'package:docment/core/const_design.dart';
+import 'package:docment/core/widget/text_style.dart';
+import 'package:docment/feature/appoinment/controller/department_doctors_controller.dart';
+import 'package:docment/feature/global/presentation/dropdown_search_button.dart';
+import 'package:docment/feature/home/data/department_data.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bounceable/flutter_bounceable.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
-import 'package:intl/intl.dart';
-
-import '../../../core/const_design.dart';
-import '../../../core/widget/text_style.dart';
-import '../../../feature/authentication/patients/presentation/registration_screen.dart';
-
-import '../../../feature/global/presentation/dropdown_search_button.dart';
+import '../../../feature/home/controller/department_controller.dart';
+import '../../../core/widget/button.dart';
 
 class AppointmentScreen extends StatelessWidget {
-  final AppointmentController controller = Get.put(AppointmentController());
-  final DateFormat _dateFormat = DateFormat('d MMMM yyyy');
-
-  Future<void> _selectDate(BuildContext context) async {
-    final DateTime currentDate = DateTime.now();
-    final DateTime? pickedDate = await showDatePicker(
-      context: context,
-      initialDate: currentDate,
-      firstDate: currentDate,
-      lastDate: DateTime(currentDate.year + 10),
-      builder: (BuildContext context, Widget? child) {
-        return Theme(
-          data: Theme.of(context).copyWith(
-            colorScheme: const ColorScheme.light(
-              primary: Colors.red,
-              onPrimary: Colors.white,
-              onSurface: Colors.black,
-            ),
-            textButtonTheme: TextButtonThemeData(
-              style: TextButton.styleFrom(
-                foregroundColor: Colors.red,
-              ),
-            ),
-          ),
-          child: child!,
-        );
-      },
-    );
-
-    if (pickedDate != null) {
-      controller.updateSelectedDate(pickedDate);
-    }
-  }
+  final DepartmentController _departmentController = Get.put(DepartmentController(departmentService: DepartmentService()));
+  final DepartmentDoctorsController _departmentDoctorsController = Get.put(DepartmentDoctorsController());
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: EdgeInsets.symmetric(horizontal: 12.5.w),
-      child: ListView(
-        children: [
-          verticalGap(20.h),
-          titleText(text: "Create Appointment", textAlign: TextAlign.center),
-          verticalGap(20.h),
+    return Scaffold(
+      body: Padding(
+        padding: EdgeInsets.symmetric(horizontal: 12.5.w),
+        child: Obx(() {
+          if (_departmentController.isLoading.value) {
+            return Center(child: CircularProgressIndicator());
+          }
 
-          // Department Dropdown
-          DropDownField(
-            title: "Select Department",
-            items: const [
-              "Neurologist",
-              "Dermatologist",
-              "Orthopedist",
-              "Dentist"
-            ],
-            onItemSelected: (value) {
-              controller.updateDepartment(value);
-            },
-          ),
-          verticalGap(20.h),
+          if (_departmentController.departments.isEmpty) {
+            return Center(child: Text("No departments available"));
+          }
 
-          // Doctor Dropdown
-          DropDownField(
-            title: "Select Doctor",
-            items: const ["Dr. John Doe", "Dr. Jack"],
-            onItemSelected: (value) {
-              controller.updateDoctor(value);
-            },
-          ),
-          verticalGap(20.h),
+          return ListView(
+            children: [
+              verticalGap(20.h),
+              titleText(text: "Create Appointment", textAlign: TextAlign.center),
+              verticalGap(20.h),
 
-          // Date Picker
-          Obx(() => Bounceable(
-                onTap: () {
-                  _selectDate(context);
+              // Department Dropdown
+              DropDownField(
+                title: "Select Department",
+                items: _departmentController.departments.map((department) {
+                  return department.translations.isNotEmpty ? department.translations[0].name : "Unnamed Department";
+                }).toList(),
+                onItemSelected: (value) {
+                  // Handle department selection
+                  final selectedDepartment = _departmentController.departments.firstWhere((department) => department.translations[0].name == value);
+                  print("Selected department: $value");
+                  print("Selected department id: ${selectedDepartment.id}");
+
+                  // Fetch doctors based on the selected department ID
+                  _departmentDoctorsController.fetchDoctors(selectedDepartment.id);
                 },
-                child: Container(
-                  height: 40.h,
-                  width: double.infinity,
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(5),
-                    border: Border.all(
-                        color: const Color.fromARGB(255, 187, 187, 187)),
-                    color: Colors.white,
-                  ),
-                  child: Center(
-                    child: Row(
-                      children: [
-                        horizontalGap(15.w),
-                        Text(
-                          controller.selectedDate.value == DateTime.now()
-                              ? 'Select Date'
-                              : _dateFormat
-                                  .format(controller.selectedDate.value),
-                          style: TextStyle(
-                              fontSize: 14.sp,
-                              color: const Color.fromARGB(255, 63, 63, 63)),
-                        ),
-                        const Spacer(),
-                        Icon(
-                          Icons.arrow_drop_down,
-                          color: const Color.fromARGB(255, 126, 126, 126),
-                          size: 34.sp,
-                        ),
-                        horizontalGap(15.w),
-                      ],
-                    ),
-                  ),
-                ),
-              )),
-          verticalGap(20.h),
+              ),
+              verticalGap(10.h),
 
-          // Schedule Dropdown
-          DropDownField(
-            title: "Select Schedule",
-            items: const ["11:00 AM", "11:30 AM", "12:00 PM", "12:30 PM"],
-            onItemSelected: (value) {
-              controller.updateSchedule(value);
-            },
-          ),
-          verticalGap(20.h),
+              // Doctors Dropdown
+              Obx(() {
+                if (_departmentDoctorsController.doctors.isEmpty) {
+                  return Text("No doctors available for the selected department");
+                }
 
-          // Submit Button
-          SubmitButton(
-            height: 33.h,
-            width: MediaQuery.of(context).size.width / 2,
-            text: "Search",
-            onTap: () {
-              Navigator.push(context, MaterialPageRoute(builder: (context) {
-                return const PatientRegistrationScreen();
-              }));
-            },
-          ),
-        ],
+                return DropDownField(
+                  title: "Select Doctor",
+                  items: _departmentDoctorsController.doctors.map((doctor) => doctor.name).toList(),
+                  onItemSelected: (value) {
+                    // Update the selected doctor in the controller
+                    final selectedDoctor = _departmentDoctorsController.doctors.firstWhere((doctor) => doctor.name == value);
+                    _departmentDoctorsController.updateDoctor(selectedDoctor);
+                  },
+                );
+              }),
+
+              verticalGap(20.h),
+
+              // Submit Button
+              SubmitButton(
+                height: 33.h,
+                width: MediaQuery.of(context).size.width / 2,
+                text: "Search",
+                onTap: () {
+                  // Handle submit action
+                },
+              ),
+            ],
+          );
+        }),
       ),
     );
   }

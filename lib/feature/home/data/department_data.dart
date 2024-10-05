@@ -1,12 +1,11 @@
 import 'dart:convert';
-import 'package:docment/feature/home/model/location_model.dart';
 import 'package:http/http.dart' as http;
-import '../../../core/api.dart'; 
 
-class LocationService {
-  final String apiUrl = "${base_url}/get-locations?language=en";
+import '../../../core/api.dart';
 
-   Future<Map<String, dynamic>> getLocations() async {
+class DepartmentService {
+  final String apiUrl = department_url;
+  Future<Map<String, dynamic>> getDepartments() async {
     final response = await http.get(Uri.parse(apiUrl)); // Replace with your actual API endpoint
 
     if (response.statusCode == 200) {

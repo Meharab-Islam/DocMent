@@ -1,4 +1,4 @@
-import 'package:docment/feature/dashboard/doctor/domain/payment_controller.dart';
+import 'package:docment/feature/dashboard/doctor/controller/payment_controller.dart';
 import 'package:docment/feature/dashboard/doctor/presentation/payment/payment_details_screen.dart';
 import 'package:docment/feature/dashboard/doctor/widget/payment_screen_widgets.dart';
 import 'package:flutter/material.dart';

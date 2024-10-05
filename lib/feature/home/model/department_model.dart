@@ -1,11 +1,11 @@
-class LocationModel {
+class DepartmentModel {
   final int id;
   final List<Translation> translations;
 
-  LocationModel({required this.id, required this.translations});
+  DepartmentModel({required this.id, required this.translations});
 
-  factory LocationModel.fromJson(Map<String, dynamic> json) {
-    return LocationModel(
+  factory DepartmentModel.fromJson(Map<String, dynamic> json) {
+    return DepartmentModel(
       id: json['id'],
       translations: (json['translations'] as List)
           .map((e) => Translation.fromJson(e))
@@ -15,14 +15,14 @@ class LocationModel {
 }
 
 class Translation {
-  final int locationId;
+  final int departmentId;
   final String name;
 
-  Translation({required this.locationId, required this.name});
+  Translation({required this.departmentId, required this.name});
 
   factory Translation.fromJson(Map<String, dynamic> json) {
     return Translation(
-      locationId: json['location_id'],
+      departmentId: json['department_id'],
       name: json['name'],
     );
   }

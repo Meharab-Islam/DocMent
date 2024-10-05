@@ -1,16 +1,30 @@
 import 'package:docment/core/const_design.dart';
+import 'package:docment/feature/authentication/doctor/controller/doctor_registration_controller.dart';
 import 'package:docment/feature/authentication/doctor/presentation/login_screen.dart';
 import 'package:docment/feature/authentication/widget/custom_dropdown_search.dart';
 import 'package:docment/feature/authentication/widget/custom_textfield.dart';
+import 'package:docment/feature/global/presentation/dropdown_search_button.dart';
+import 'package:docment/feature/home/controller/department_controller.dart';
+import 'package:docment/feature/home/controller/location_data_controller.dart';
+import 'package:docment/feature/home/data/department_data.dart';
+import 'package:docment/feature/home/data/location_data.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bounceable/flutter_bounceable.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:get/get.dart';
 
 class DoctorRegistrationScreen extends StatelessWidget {
   const DoctorRegistrationScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
+      final DepartmentController _departmentController = Get.put(DepartmentController(departmentService: DepartmentService()));
+      final LocationController _locationController = Get.put(LocationController(locationService:  LocationService()));
+      final DoctorRegisterController _doctorRegisterController = Get.put(DoctorRegisterController());
+
+
+
+
     return Container(
       height: double.infinity,
       width: double.infinity,
@@ -58,48 +72,95 @@ class DoctorRegistrationScreen extends StatelessWidget {
                   CustomTextfield(
                     hint: 'Name',
                     isPassword: false,
-                    controller: TextEditingController(),
+                    controller: _doctorRegisterController.nameController,
                   ),
                   verticalGap(10.h),
                   CustomTextfield(
                     hint: 'Designation',
                     isPassword: false,
-                    controller: TextEditingController(),
+                    controller: _doctorRegisterController.designationsController,
                   ),
                   verticalGap(10.h),
                   CustomTextfield(
                     hint: 'Email',
                     isPassword: false,
-                    controller: TextEditingController(),
+                    controller: _doctorRegisterController.emailController,
                   ),
                   verticalGap(10.h),
                   CustomTextfield(
                     hint: 'Phone',
                     isPassword: false,
-                    controller: TextEditingController(),
+                    controller: _doctorRegisterController.phoneController,
                   ),
                   verticalGap(10.h),
                   CustomTextfield(
                     hint: 'Password',
                     isPassword: true,
-                    controller: TextEditingController(),
+                    controller: _doctorRegisterController.passwordController,
                   ),
+                  CustomTextfield(
+                    hint: 'Confirm Password',
+                    isPassword: true,
+                    controller: _doctorRegisterController.passwordConfirmationController,
+                  ),
+                
                   verticalGap(10.h),
-                  const RegistrationDropDownField(title: "Department", items: [
-                    'Cardiology',
-                    'Nurology',
-                    'Opthalmology',
-                    'Pediatric',
-                    'Radiology',
-                    'Urology'
-                  ]),
+                Obx((){
+                    if (_departmentController.isLoading.value) {
+            return Center(child: CircularProgressIndicator());
+          }
+
+          if (_departmentController.departments.isEmpty) {
+            return Center(child: Text("No departments available"));
+          }
+          return RegistrationDropDownField( 
+            title: "Select Department",
+                items: _departmentController.departments.map((department) {
+                  return department.translations.isNotEmpty ? department.translations[0].name : "Unnamed Department";
+                }).toList(),
+                onItemSelected: (value) {
+                  // Handle department selection
+                  final selectedDepartment = _departmentController.departments.firstWhere((department) => department.translations[0].name == value);
+                  print("Selected department: $value");
+                  print("Selected department id: ${selectedDepartment.id}");
+
+                  _doctorRegisterController.departmentController.text = selectedDepartment.id.toString();
+
+                  // Fetch doctors based on the selected department ID
+                
+                
+                },);
+                }),
+                
                   verticalGap(10.h),
-                  const RegistrationDropDownField(
-                      title: "Location",
-                      items: ['Boston', 'Chicago', 'Los Angeles', 'NewYork']),
+                  Obx((){
+                    if (_departmentController.isLoading.value) {
+            return Center(child: CircularProgressIndicator());
+          }
+
+          if (_departmentController.departments.isEmpty) {
+            return Center(child: Text("No departments available"));
+          }
+          return RegistrationDropDownField(title: "Select Location",  items: _locationController.location.map((location) {
+                  return location.translations.isNotEmpty ? location.translations[0].name.toString(): "Unnamed Department";
+                }).toList(),
+                onItemSelected: (value) {
+                  // Handle department selection
+                  final selectedLocation = _locationController.location.firstWhere((location) => location.translations[0].name == value);
+                  print("Selected department: $value");
+                  print("Selected department id: ${selectedLocation.id}");
+
+                  _doctorRegisterController.locationController.text = selectedLocation.id.toString();
+
+                  // Fetch doctors based on the selected department ID
+                
+                },);
+                }),
                   verticalGap(10.h),
                   Bounceable(
-                      onTap: () {},
+                      onTap: () {
+                        _doctorRegisterController.registerDoctor(context);
+                      },
                       child: Container(
                         height: 33.h,
                         // width: MediaQuery.of(context).size.width / 2,

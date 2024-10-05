@@ -1,5 +1,6 @@
 import 'package:docment/core/widget/drower.dart';
 import 'package:docment/feature/about-us/presentation/about_us_screen.dart';
+import 'package:docment/feature/appoinment/presentation/appoinment_landing_screen.dart';
 import 'package:docment/feature/appoinment/presentation/appoinment_screen.dart';
 import 'package:docment/feature/chat/presentation/chat_list.dart';
 import 'package:docment/feature/home/presentation/home_presentation_screen.dart';
@@ -64,7 +65,8 @@ class HomePage extends StatelessWidget {
   // Screens to show based on the selected index
   static final List<Widget> _widgetOptions = <Widget>[
     const HomePresentationScreen(),
-    AppointmentScreen(),
+    // AppointmentScreen(),
+    AppointmentListPage(),
     const AboutUsScreen(),
     ProfileScreen(),
   ];

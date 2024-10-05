@@ -1,15 +1,15 @@
-import 'package:docment/feature/home/data/location_data.dart';
-import 'package:docment/feature/home/model/location_model.dart';
-
+import 'package:docment/feature/home/data/department_data.dart';
+import 'package:docment/feature/home/model/department_model.dart';
 import 'package:get/get.dart';
 
-class LocationController extends GetxController {
-  var location = <LocationModel>[].obs;
+
+class DepartmentController extends GetxController {
+  var departments = <DepartmentModel>[].obs;
   var isLoading = true.obs;
 
-  final LocationService locationService;
+  final DepartmentService departmentService;
 
-  LocationController({required this.locationService});
+  DepartmentController({required this.departmentService});
 
   @override
   void onInit() {
@@ -20,10 +20,10 @@ class LocationController extends GetxController {
   Future<void> fetchDepartments() async {
     try {
       isLoading(true);
-      final response = await locationService.getLocations();
+      final response = await departmentService.getDepartments();
       if (response['status'] == 'success') {
-        location.value = (response['data'] as List)
-            .map((e) => LocationModel.fromJson(e))
+        departments.value = (response['data'] as List)
+            .map((e) => DepartmentModel.fromJson(e))
             .toList();
       } else {
         // Handle error case

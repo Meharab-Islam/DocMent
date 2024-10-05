@@ -1,7 +1,7 @@
 import 'package:docment/core/app_image.dart';
 import 'package:docment/core/widget/drower.dart';
 import 'package:docment/feature/chat/presentation/chat_list.dart';
-import 'package:docment/feature/dashboard/doctor/domain/navigationbar_controller.dart';
+import 'package:docment/feature/dashboard/doctor/controller/navigationbar_controller.dart';
 import 'package:docment/feature/dashboard/doctor/presentation/appoinment/dashboard_appoinment_screen.dart';
 import 'package:docment/feature/dashboard/doctor/presentation/dashboard_landing_screen.dart';
 import 'package:docment/feature/dashboard/doctor/presentation/payment/dashboard_payment_screen.dart';
