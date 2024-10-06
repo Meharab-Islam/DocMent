@@ -17,11 +17,11 @@ class DoctorProfileScreen extends StatelessWidget {
           return Center(child: CircularProgressIndicator());
         }
 
-        if (_doctorProfileController.doctorProfile.value!.data == null) {
+        if (_doctorProfileController.doctorProfile.value == null) {
           return Center(child: Text("No doctor data available"));
         }
 
-        var doctor = _doctorProfileController.doctorProfile.value!.data!;
+        var doctor = _doctorProfileController.doctorProfile.value!;
         var translation = doctor.translations![0];
 
         return SingleChildScrollView(

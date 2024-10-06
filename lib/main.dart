@@ -3,6 +3,7 @@ import 'package:docment/feature/about-us/presentation/about_us_screen.dart';
 import 'package:docment/feature/appoinment/presentation/appoinment_landing_screen.dart';
 import 'package:docment/feature/appoinment/presentation/appoinment_screen.dart';
 import 'package:docment/feature/chat/presentation/chat_list.dart';
+import 'package:docment/feature/dashboard/doctor/presentation/dashboard_main_screen.dart';
 import 'package:docment/feature/home/presentation/home_presentation_screen.dart';
 import 'package:docment/feature/profile/presentation/profile_screen.dart';
 import 'package:flashy_tab_bar2/flashy_tab_bar2.dart';
@@ -31,6 +32,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     // Initialize ScreenUtil for responsive design
+   
     return ScreenUtilInit(
       designSize: Size(360, 640),
       builder: (context, child) => GetMaterialApp(
@@ -55,6 +57,7 @@ class MyApp extends StatelessWidget {
 }
 
 class HomePage extends StatelessWidget {
+   final GetStorage storage = GetStorage();
   // Inject MyTabController
   final NavigationbarTabController tabController =
       Get.put(NavigationbarTabController());
@@ -73,7 +76,7 @@ class HomePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return storage.read("doctor_auth_token") != null ? DashboardMainScreen() :  Scaffold(
       resizeToAvoidBottomInset: false,
       appBar: AppBar(
         title: Image.asset(

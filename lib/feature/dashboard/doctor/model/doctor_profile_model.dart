@@ -1,19 +1,4 @@
-// doctor_profile_model.dart
 class DoctorProfileModel {
-  String? status;
-  DoctorData? data;
-
-  DoctorProfileModel({this.status, this.data});
-
-  factory DoctorProfileModel.fromJson(Map<String, dynamic> json) {
-    return DoctorProfileModel(
-      status: json['status'],
-      data: json['data'] != null ? DoctorData.fromJson(json['data']) : null,
-    );
-  }
-}
-
-class DoctorData {
   int? id;
   int? departmentId;
   int? locationId;
@@ -28,9 +13,9 @@ class DoctorData {
   String? linkedin;
   int? status;
   int? showHomepage;
-  List<DoctorTranslation>? translations;
+  List<Translation>? translations;
 
-  DoctorData({
+  DoctorProfileModel({
     this.id,
     this.departmentId,
     this.locationId,
@@ -48,8 +33,9 @@ class DoctorData {
     this.translations,
   });
 
-  factory DoctorData.fromJson(Map<String, dynamic> json) {
-    return DoctorData(
+  // Factory method to parse JSON into a DoctorProfileModel
+  factory DoctorProfileModel.fromJson(Map<String, dynamic> json) {
+    return DoctorProfileModel(
       id: json['id'],
       departmentId: json['department_id'],
       locationId: json['location_id'],
@@ -65,15 +51,36 @@ class DoctorData {
       status: json['status'],
       showHomepage: json['show_homepage'],
       translations: json['translations'] != null
-          ? (json['translations'] as List)
-              .map((e) => DoctorTranslation.fromJson(e))
-              .toList()
-          : [],
+          ? List<Translation>.from(json['translations'].map((translation) => Translation.fromJson(translation)))
+          : null,
     );
+  }
+
+  // Method to convert DoctorProfileModel to JSON
+  Map<String, dynamic> toJson() {
+    return {
+      'id': id,
+      'department_id': departmentId,
+      'location_id': locationId,
+      'name': name,
+      'slug': slug,
+      'email': email,
+      'phone': phone,
+      'fee': fee,
+      'image': image,
+      'facebook': facebook,
+      'twitter': twitter,
+      'linkedin': linkedin,
+      'status': status,
+      'show_homepage': showHomepage,
+      'translations': translations != null
+          ? translations!.map((translation) => translation.toJson()).toList()
+          : null,
+    };
   }
 }
 
-class DoctorTranslation {
+class Translation {
   int? id;
   int? doctorId;
   String? langCode;
@@ -86,7 +93,7 @@ class DoctorTranslation {
   String? seoTitle;
   String? seoDescription;
 
-  DoctorTranslation({
+  Translation({
     this.id,
     this.doctorId,
     this.langCode,
@@ -100,8 +107,9 @@ class DoctorTranslation {
     this.seoDescription,
   });
 
-  factory DoctorTranslation.fromJson(Map<String, dynamic> json) {
-    return DoctorTranslation(
+  // Factory method to parse JSON into a Translation
+  factory Translation.fromJson(Map<String, dynamic> json) {
+    return Translation(
       id: json['id'],
       doctorId: json['doctor_id'],
       langCode: json['lang_code'],
@@ -114,5 +122,22 @@ class DoctorTranslation {
       seoTitle: json['seo_title'],
       seoDescription: json['seo_description'],
     );
+  }
+
+  // Method to convert Translation to JSON
+  Map<String, dynamic> toJson() {
+    return {
+      'id': id,
+      'doctor_id': doctorId,
+      'lang_code': langCode,
+      'designations': designations,
+      'about': about,
+      'address': address,
+      'educations': educations,
+      'experience': experience,
+      'qualifications': qualifications,
+      'seo_title': seoTitle,
+      'seo_description': seoDescription,
+    };
   }
 }

@@ -4,15 +4,19 @@ import 'package:docment/core/api.dart';
 import 'package:docment/feature/appoinment/controller/appoinment_list_controller.dart';
 import 'package:docment/feature/appoinment/presentation/appoinment_details_screen.dart';
 import 'package:docment/feature/appoinment/presentation/appoinment_screen.dart';
+import 'package:docment/feature/authentication/patients/presentation/login_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:get_storage/get_storage.dart';
 
 class AppointmentListPage extends StatelessWidget {
   final AppointmentListController controller = Get.put(AppointmentListController());
 
+  GetStorage _storage = GetStorage();
+
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return _storage.read('patient_auth_token') == null ? PatientLoginScreen() : Scaffold(
       appBar: AppBar(title: Text('Appointments')),
       body: Obx(() {
         if (controller.isLoading.value) {

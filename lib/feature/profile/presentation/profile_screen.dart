@@ -1,15 +1,23 @@
+import 'package:docment/core/api.dart';
+import 'package:docment/feature/authentication/patients/presentation/login_screen.dart';
 import 'package:docment/feature/profile/controller/profile_screen_controller.dart';
 import 'package:docment/feature/profile/presentation/edit_profile_screen.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:flutter_animate/flutter_animate.dart';
+import 'package:get_storage/get_storage.dart';
 
 class ProfileScreen extends StatelessWidget {
   final PatientController controller = Get.put(PatientController());
 
+  GetStorage _storage = GetStorage();
+
+
+
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return  _storage.read('patient_auth_token') == null ? PatientLoginScreen() : Scaffold(
       backgroundColor: Colors.white,
       body: SingleChildScrollView(
         child: Padding(
@@ -17,19 +25,30 @@ class ProfileScreen extends StatelessWidget {
           child: Obx(() {
             // Ensure profile is loaded
             final profile = controller.patient.value;
-            if (profile == null) {
+            if (controller.isLoading.value == true) {
               return const Center(child: CircularProgressIndicator());
+            }
+            if (profile == null) {
+              return Center(child: Text('No profile available'));
             }
 
             return Column(
               children: [
                 // Profile Image with Animation
                 Center(
-                  child: CircleAvatar(
-                    radius: 70,
-                    backgroundImage: profile.image != null
-                        ? NetworkImage(profile.image!)
-                        : const AssetImage('assets/images/default_profile.png') as ImageProvider,
+                  child: Container(
+                   
+                    height: 150.h,
+                    width: 150.w,
+                    decoration: BoxDecoration(
+                      shape: BoxShape.circle,
+                      image: DecorationImage(
+                        image: profile.image != null ? NetworkImage("$url${profile.image!}",)
+                        : const NetworkImage('https://images.pexels.com/photos/25185199/pexels-photo-25185199/free-photo-of-smiling-woman-with-yellow-wildflowers-in-her-hair.jpeg?auto=compress&cs=tinysrgb&w=600&lazy=load') as ImageProvider,
+                        fit: BoxFit.cover,
+                      ),
+                    ),
+                       
                   ).animate().scale(duration: 700.ms).fadeIn(),
                 ),
                 const SizedBox(height: 20),

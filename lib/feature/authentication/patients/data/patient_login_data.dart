@@ -24,7 +24,7 @@ class PatientLoginData {
         String token = responseData['token']; // Adjust to your API response
 
         // Save token using GetStorage
-        storage.write('auth_token', token);
+        storage.write('patient_auth_token', token);
         
 
         Get.offAll(() => HomePage());

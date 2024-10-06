@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'package:docment/core/api.dart';
 import 'package:docment/feature/authentication/doctor/model/doctor_login_model.dart';
+import 'package:docment/feature/dashboard/doctor/presentation/dashboard_main_screen.dart';
 import 'package:docment/main.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -24,10 +25,12 @@ class DoctorLoginData {
         String token = responseData['token']; // Adjust to your API response
 
         // Save token using GetStorage
-        storage.write('auth_token', token);
+        storage.write('doctor_auth_token', token);
+
+        print("token is " + storage.read("doctor_auth_token"));
         
 
-        Get.offAll(() => HomePage());
+        Get.offAll(() => DashboardMainScreen());
 
 
         print('User logged in successfully');

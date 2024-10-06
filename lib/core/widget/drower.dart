@@ -1,9 +1,12 @@
 import 'package:docment/feature/authentication/doctor/presentation/login_screen.dart';
 import 'package:docment/feature/authentication/doctor/presentation/registration_screen.dart';
+import 'package:docment/main.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:get_storage/get_storage.dart';
 
 class MyDrawer extends StatelessWidget {
+  GetStorage _storage = GetStorage();
   @override
   Widget build(BuildContext context) {
     return Drawer(
@@ -55,14 +58,14 @@ class MyDrawer extends StatelessWidget {
             Divider(thickness: 1, color: Colors.grey[300]),
 
             // List of options
-            ListTile(
+         _storage.read("doctor_auth_token") == null ?    ListTile(
               leading: Icon(Icons.person, color: Colors.deepOrange),
               title: Text('Doctor Login'),
               onTap: () {
                 // Navigator.of(context).pushNamed('/doctor_login');
                 Get.to(DoctorLoginScreen());
               },
-            ),
+            ):SizedBox(),
             // ListTile(
             //   leading: Icon(Icons.assignment, color: Colors.deepOrange),
             //   title: Text('Doctor Registration'),
@@ -81,7 +84,8 @@ class MyDrawer extends StatelessWidget {
               leading: Icon(Icons.logout, color: Colors.red),
               title: Text('Logout'),
               onTap: () {
-                Navigator.of(context).pop();
+                _storage.remove('doctor_auth_token');
+                Get.offAll(() => MyApp());
                 ScaffoldMessenger.of(context)
                     .showSnackBar(SnackBar(content: Text('Logged out')));
               },

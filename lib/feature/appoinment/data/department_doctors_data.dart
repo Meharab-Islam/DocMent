@@ -5,29 +5,39 @@ import 'package:docment/feature/appoinment/model/department_doctors_model.dart';
 import 'package:http/http.dart' as http;
 
 class DepartmentDoctorsService {
-  Future<List<DepartmentDoctorsModel>> fetchDoctors(int departmentId) async {
-    // Make the API call here
-    // Replace the following line with actual API call
-    final response = await http.get(
-        Uri.parse("$base_url+/get-department-doctor/:2"));
+  final String apiUrl = doctor_search_by_department_id_url; // Replace with your API URL
 
-        
+  // Fetch doctors based on department or location (or any ID)
+  Future<List<DepartmentDoctorsModel>> fetchDoctors(int id) async {
+    print(id);
+    final response = await http.get(Uri.parse('$apiUrl$id')); // Append ID to the URL
 
-    if (response.statusCode == 200) {
-      // Parse the JSON response
-      final jsonResponse = json.decode(response.body);
-      // Create a list of doctors
-      print("Response status code: ${response.statusCode}");
+  
+  print('Response status: ${response.statusCode}');
+  print('Response body: ${response}');
 
-      return (jsonResponse['data'] as List)
-          .map((doctorJson) => DepartmentDoctorsModel.fromJson(doctorJson))
-          .toList();
-
-    } else {print("Response status code: ${response.statusCode}");
-
-      throw Exception('Failed to load doctors');
+  if (response.statusCode == 200) {
+    if (response.body.isNotEmpty) {
+      try {
+        final data = json.decode(response.body);
+        if (data.containsKey('data')) {
+          List<DepartmentDoctorsModel> doctors = (data['data'] as List)
+              .map((doctorJson) => DepartmentDoctorsModel.fromJson(doctorJson))
+              .toList();
+          return doctors;
+        } else {
+          throw Exception('Invalid response structure');
+        }
+      } catch (e) {
+        throw Exception('Failed to parse JSON: $e');
+      }
+    } else {
+      throw Exception('Empty response body');
     }
+  } else if (response.statusCode == 404) {
+    throw Exception('Data not found (404)');
+  } else {
+    throw Exception('Failed to load doctors, status code: ${response.statusCode}');
+  }
   }
 }
-
-

@@ -8,11 +8,14 @@ import 'dart:convert';
 class PatientService {
   final String patientProfileUrl = patient_profile_url;  // Update with your actual API
 
+  GetStorage _storage = GetStorage();
+
   Future<PatientModel> fetchPatientData() async {
+    String _token = _storage.read('patient_auth_token');
     final response = await http.get(Uri.parse(patientProfileUrl), headers: {
       'Content-Type': 'application/json',
       'Accept': 'application/json',
-      'Authorization': token,
+      'Authorization':  "Bearer " + _token,
     });
 
     if (response.statusCode == 200) {

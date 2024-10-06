@@ -98,6 +98,7 @@ class DoctorRegistrationScreen extends StatelessWidget {
                     isPassword: true,
                     controller: _doctorRegisterController.passwordController,
                   ),
+                    verticalGap(10.h),
                   CustomTextfield(
                     hint: 'Confirm Password',
                     isPassword: true,
@@ -157,28 +158,49 @@ class DoctorRegistrationScreen extends StatelessWidget {
                 },);
                 }),
                   verticalGap(10.h),
-                  Bounceable(
-                      onTap: () {
-                        _doctorRegisterController.registerDoctor(context);
-                      },
-                      child: Container(
-                        height: 33.h,
-                        // width: MediaQuery.of(context).size.width / 2,
-                        width: double.infinity,
-                        decoration: BoxDecoration(
-                          color: Colors.redAccent,
-                          borderRadius: BorderRadius.circular(3.r),
-                        ),
-                        child: Center(
-                          child: Text(
-                            "Register",
-                            style: TextStyle(
-                                color: Colors.white,
-                                fontSize: 15.sp,
-                                fontWeight: FontWeight.w400),
-                          ),
-                        ),
-                      )),
+                        
+                  verticalGap(10.h),
+                       Obx(() {
+                      if (_doctorRegisterController.isLoading.value) {
+                        return const Center(child: CircularProgressIndicator());
+                      }
+                      return Bounceable(
+                          onTap: () {
+                            if (_doctorRegisterController.emailController.text.isEmpty ||
+                                _doctorRegisterController.passwordController.text.isEmpty ||_doctorRegisterController.passwordConfirmationController.text.isEmpty || _doctorRegisterController.nameController.text.isEmpty || _doctorRegisterController.designationsController.text.isEmpty || _doctorRegisterController.phoneController.text.isEmpty || _doctorRegisterController.departmentController.text.isEmpty || _doctorRegisterController.locationController.text.isEmpty) {
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                const SnackBar(
+                                  content: Text('Input Fields cannot be empty'),
+                                ),
+                              );
+                            } else {
+                          
+
+                             _doctorRegisterController.registerDoctor(context);
+
+                              print(_doctorRegisterController.emailController.text);
+                              print(_doctorRegisterController.passwordController.text);
+                            }
+                          },
+                          child: Container(
+                            height: 33.h,
+                            // width: MediaQuery.of(context).size.width / 2,
+                            width: double.infinity,
+                            decoration: BoxDecoration(
+                              color: Colors.redAccent,
+                              borderRadius: BorderRadius.circular(3.r),
+                            ),
+                            child: Center(
+                              child: Text(
+                                "Register",
+                                style: TextStyle(
+                                    color: Colors.white,
+                                    fontSize: 15.sp,
+                                    fontWeight: FontWeight.w400),
+                              ),
+                            ),
+                          ));
+                    }),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [

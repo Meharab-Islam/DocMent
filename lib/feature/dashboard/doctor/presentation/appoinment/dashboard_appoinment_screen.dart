@@ -1,164 +1,100 @@
 import 'package:docment/feature/dashboard/doctor/controller/appoinment_controller.dart';
-import 'package:docment/feature/dashboard/doctor/presentation/appoinment/appoinment_details_screen.dart';
+import 'package:docment/feature/dashboard/doctor/data/doctor_appoinment_data.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 
 class DashBoardAppointmentsScreen extends StatelessWidget {
-  final DashBoardAppointmentController appointmentController =
-      Get.put(DashBoardAppointmentController());
+  final DoctorAppointmentController controller =
+      Get.put(DoctorAppointmentController(appointmentService: DoctorAppointmentService()));
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Column(
-          children: [
-            // Appointment Counts Cards
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
+      appBar: AppBar(title: Text('Appointments')),
+      body: Obx(() {
+        if (controller.isLoading.value) {
+          return Center(child: CircularProgressIndicator());
+        } else {
+          return SingleChildScrollView(
+            child: Column(
               children: [
-                _buildCountCard(
-                  title: 'Upcoming',
-                  count: appointmentController.countUpcomingAppointments(),
-                  color: Colors.blue,
-                ),
-                _buildCountCard(
-                  title: 'Cancelled',
-                  count: appointmentController.countCancelledAppointments(),
-                  color: Colors.red,
-                ),
-                _buildCountCard(
-                  title: 'Past',
-                  count: appointmentController.countPastAppointments(),
-                  color: Colors.grey,
+                // Cards for total appointments and treated count
+                Padding(
+                  padding: const EdgeInsets.all(16.0),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: [
+                      _buildStatCard('Total Appointments', controller.appointmentData.value.data.total.toString(), Colors.red),
+                      _buildStatCard('Treated Appointments', controller.treatedCount.value.toString(), Colors.blue),
+                    ],
+                  ),
+                ).animate().fadeIn(delay: 100.ms), // Add fade in animation
+                // Scrollable table for appointment details
+                Padding(
+                  padding: const EdgeInsets.all(16.0),
+                  child: SingleChildScrollView(
+                    scrollDirection: Axis.vertical,
+                    child: SingleChildScrollView(
+                      scrollDirection: Axis.horizontal,
+                      child: DataTable(
+                        columns: [
+                          DataColumn(label: Text('ID')),
+                          DataColumn(label: Text('Date')),
+                          DataColumn(label: Text('Fee')),
+                          DataColumn(label: Text('Status')),
+                          DataColumn(label: Text('Patient Name')),
+                          DataColumn(label: Text('Email')),
+                        ],
+                        rows: controller.appointmentData.value.data.appointments
+                            .map((appointment) => DataRow(cells: [
+                                  DataCell(Text(appointment.id.toString())),
+                                  DataCell(Text(appointment.date)),
+                                  DataCell(Text('${appointment.appointmentFee} ${appointment.payableCurrency}')),
+                                  DataCell(Text(appointment.status.toString())),
+                                  DataCell(Text(appointment.user.name)),
+                                  DataCell(Text(appointment.user.email)),
+                                ]))
+                            .toList(),
+                      ).animate().fadeIn(delay: 200.ms), // Add fade in animation for the table
+                    ),
+                  ),
                 ),
               ],
             ),
-            const SizedBox(height: 20),
-
-            // Search Bar
-            TextField(
-              onChanged: (value) {
-                appointmentController
-                    .updateSearchQuery(value); // Update search query
-              },
-              decoration: InputDecoration(
-                labelText: 'Search by Date',
-                prefixIcon: Icon(Icons.search),
-                border: OutlineInputBorder(),
-              ),
-            ).animate().fadeIn(duration: 600.ms),
-
-            const SizedBox(height: 20),
-
-            // Filter Dropdown
-            Obx(() => DropdownButtonFormField<String>(
-                  value: appointmentController.selectedFilter.value,
-                  onChanged: (value) {
-                    if (value != null) {
-                      appointmentController
-                          .updateFilter(value); // Update filter
-                    }
-                  },
-                  items: <String>["All", "Upcoming", "Past", "Cancelled"]
-                      .map((String filter) {
-                    return DropdownMenuItem<String>(
-                      value: filter,
-                      child: Text(filter),
-                    );
-                  }).toList(),
-                  decoration: InputDecoration(
-                    labelText: 'Filter by Status',
-                    border: OutlineInputBorder(),
-                  ),
-                )).animate().fadeIn(duration: 600.ms),
-
-            const SizedBox(height: 20),
-
-            // Appointments List Table
-            Expanded(
-              child: SingleChildScrollView(
-                child: Obx(() => DataTable(
-                      columns: const [
-                        DataColumn(label: Text('Date')),
-                        DataColumn(label: Text('Time')),
-                        DataColumn(label: Text('Status')),
-                      ],
-                      rows: appointmentController.filteredAppointments
-                          .map((appointment) {
-                        return DataRow(
-                          cells: [
-                            DataCell(Text(appointment["date"]!)),
-                            DataCell(Text(appointment["time"]!)),
-                            DataCell(
-                              Text(
-                                appointment["status"]!,
-                                style: TextStyle(
-                                  color: appointment["status"] == "Upcoming"
-                                      ? Colors.blue
-                                      : appointment["status"] == "Cancelled"
-                                          ? Colors.red
-                                          : Colors.grey,
-                                ),
-                              ),
-                            ),
-                          ],
-                          onSelectChanged: (bool? selected) {
-                            if (selected != null && selected) {
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) => AppointmentDetailScreen(
-                                      appointment: appointment),
-                                ),
-                              );
-                            }
-                          },
-                        );
-                      }).toList(),
-                    )).animate().fadeIn(duration: 800.ms),
-              ),
-            ),
-          ],
-        ),
-      ),
+          );
+        }
+      }),
     );
   }
 
-  Widget _buildCountCard(
-      {required String title, required int count, required Color color}) {
+  Widget _buildStatCard(String title, String value, Color cardColor) {
     return Card(
-      
-      color: color,
       elevation: 4,
-      child: Padding(
-        padding: EdgeInsets.all(16.0.sp),
+      color: cardColor.withOpacity(0.8), // Set card color with opacity
+      child: Container(
+        padding: EdgeInsets.all(16),
+        width: 150.w, // Fixed width for uniform size
+        height: 100.h, // Fixed height for uniform size
         child: Column(
-          mainAxisSize: MainAxisSize.min,
+          mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Text(
               title,
-              style: TextStyle(
-                fontSize: 18,
-                fontWeight: FontWeight.bold,
-                color: Colors.white,
-              ),
+              style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: Colors.white),
+              textAlign: TextAlign.center,
             ),
             SizedBox(height: 8),
             Text(
-              count.toString(),
-              style: TextStyle(
-                fontSize: 24,
-                fontWeight: FontWeight.bold,
-                color: Colors.white,
-              ),
+              value,
+              style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold, color: Colors.white),
+              textAlign: TextAlign.center,
             ),
           ],
         ),
-      ),
+      ).animate().scale(), // Scale animation for card
     );
   }
 }
+

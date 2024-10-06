@@ -1,5 +1,5 @@
 
-String token = "Bearer 13|kN6sklBm7V62SjdXpyuxUwGfhlwEARuLOeEG8y0he2dbfa2c";
+String token = "Bearer 17|Xz44UHHhGivjpVE244bwr6qfXte6AM0ntJpwNBym640bdc89";
 
 String url = "https://demo.websolutionus.com/finddoc/";
 String base_url = "https://demo.websolutionus.com/finddoc/api";
@@ -24,5 +24,6 @@ String department_deoctorsl_url = "$base_url/get-department-doctor/:";
 
 // doctor
 String doctor_profile_url = "$base_url/doctor/profile?language=en"; 
-String doctor_loin_url = "$base_url//doctor/login"; 
+String doctor_loin_url = "$base_url/doctor/login"; 
 String doctor_registration_url = "$base_url/doctor/register"; 
+String doctor_all_appointment_url = "$base_url/doctor/all-appointment";

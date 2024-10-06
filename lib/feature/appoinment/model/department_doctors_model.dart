@@ -1,12 +1,12 @@
-// department_doctors_model.dart
 class DepartmentDoctorsModel {
   final int id;
   final int departmentId;
   final int locationId;
   final String name;
+  final String slug;
   final String email;
   final String phone;
-  final double fee;
+  final double fee; // Changed to double to accommodate for decimal values
   final String image;
   final String facebook;
   final String twitter;
@@ -19,6 +19,7 @@ class DepartmentDoctorsModel {
     required this.departmentId,
     required this.locationId,
     required this.name,
+    required this.slug,
     required this.email,
     required this.phone,
     required this.fee,
@@ -36,9 +37,10 @@ class DepartmentDoctorsModel {
       departmentId: json['department_id'],
       locationId: json['location_id'],
       name: json['name'],
+      slug: json['slug'],
       email: json['email'],
       phone: json['phone'],
-      fee: json['fee'].toDouble(),
+      fee: json['fee'].toDouble(), // Convert to double
       image: json['image'],
       facebook: json['facebook'],
       twitter: json['twitter'],
@@ -47,99 +49,23 @@ class DepartmentDoctorsModel {
       showHomepage: json['show_homepage'],
     );
   }
+
+  Map<String, dynamic> toJson() {
+    return {
+      'id': id,
+      'department_id': departmentId,
+      'location_id': locationId,
+      'name': name,
+      'slug': slug,
+      'email': email,
+      'phone': phone,
+      'fee': fee,
+      'image': image,
+      'facebook': facebook,
+      'twitter': twitter,
+      'linkedin': linkedin,
+      'status': status,
+      'show_homepage': showHomepage,
+    };
+  }
 }
-
-
-
-
-
-
-
-
-
-
-//  Obx(() => Bounceable(
-//                   onTap: () {
-//                     _selectDate(context);
-//                   },
-//                   child: Container(
-//                     height: 40.h,
-//                     width: double.infinity,
-//                     decoration: BoxDecoration(
-//                       borderRadius: BorderRadius.circular(5),
-//                       border: Border.all(
-//                           color: const Color.fromARGB(255, 187, 187, 187)),
-//                       color: Colors.white,
-//                     ),
-//                     child: Center(
-//                       child: Row(
-//                         children: [
-//                           horizontalGap(15.w),
-//                           Text(
-//                             controller.selectedDate.value == DateTime.now()
-//                                 ? 'Select Date'
-//                                 : _dateFormat
-//                                     .format(controller.selectedDate.value),
-//                             style: TextStyle(
-//                                 fontSize: 14.sp,
-//                                 color: const Color.fromARGB(255, 63, 63, 63)),
-//                           ),
-//                           const Spacer(),
-//                           Icon(
-//                             Icons.arrow_drop_down,
-//                             color: const Color.fromARGB(255, 126, 126, 126),
-//                             size: 34.sp,
-//                           ),
-//                           horizontalGap(15.w),
-//                         ],
-//                       ),
-//                     ),
-//                   ),
-//                 )),
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-  // final DateFormat _dateFormat = DateFormat('d MMMM yyyy');
-
-  // Future<void> _selectDate(BuildContext context) async {
-  //   final DateTime currentDate = DateTime.now();
-  //   final DateTime? pickedDate = await showDatePicker(
-  //     context: context,
-  //     initialDate: currentDate,
-  //     firstDate: currentDate,
-  //     lastDate: DateTime(currentDate.year + 10),
-  //     builder: (BuildContext context, Widget? child) {
-  //       return Theme(
-  //         data: Theme.of(context).copyWith(
-  //           colorScheme: const ColorScheme.light(
-  //             primary: Colors.red,
-  //             onPrimary: Colors.white,
-  //             onSurface: Colors.black,
-  //           ),
-  //           textButtonTheme: TextButtonThemeData(
-  //             style: TextButton.styleFrom(
-  //               foregroundColor: Colors.red,
-  //             ),
-  //           ),
-  //         ),
-  //         child: child!,
-  //       );
-  //     },
-  //   );
-
-  //   if (pickedDate != null) {
-  //     controller.updateSelectedDate(pickedDate);
-  //   }
-  // }
